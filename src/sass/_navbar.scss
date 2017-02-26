@@ -1,0 +1,45 @@
+.navbar {
+  background: $white-color;
+  border-color: $white-color;  
+  border-radius: 0;
+  box-shadow: 0 3px 7px 0 $border-color;
+  min-height: 58px;
+  padding: 3px;
+  z-index: 10;
+}
+
+.nav-tabs > li > a {
+  margin-bottom: 10px;
+  padding: 6px 15px;
+}
+
+.navbar-default {
+ .navbar-brand {
+    padding: 6px 15px;
+    font-size: 30px;
+    color: $primary;
+    > a {
+      background-color: transparent;
+      color: $dark-gray-color;
+      font-size: 29px;
+      margin-bottom: 3px;
+      margin-right: 9px;
+      text-decoration: none;
+      > img {
+        height: 100%;
+      }
+    }
+    > p {
+      font-size: 13px;
+      color: $primary;
+      font-weight: 600;
+      font-style: italic;
+    }
+  }
+  .navbar-nav > li > a {
+    font-size: 17px;
+  }
+}
+ 
+
+ 
