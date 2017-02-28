@@ -1,8 +1,10 @@
 import React, {Component} from 'react'
 import Chart from './ChartComponent'
+import MBTable from './tableComponents'
 import { generateInitialConfig, processDataPerYear, getDataForChartPerYear,
-  contributionChartData } from './../Utils'
+  contributionChartData, getScoreAccordingPlace } from './../Utils'
 import { SACHIN_DATA } from './../data/sachinDetails'
+import { GROUND_DATA } from './../data/groundsData'
 
 export default class Dashboard extends Component {
   constructor(props) {
@@ -11,7 +13,8 @@ export default class Dashboard extends Component {
       totalRunChartConfig: {},
       averageChartConfig: {},
       highScoredChartConfig: {},
-      contributionStatisticsConfig: {}
+      contributionStatisticsConfig: {},
+      homeAwayChartData: {}
     }
   }
 
@@ -40,6 +43,7 @@ export default class Dashboard extends Component {
     Object.keys(data).map((key) => {
       processedData.categories.push(key)
       averageScore = data[key]['totalRun'] / (data[key]['totalMatchCount'] - data[key]['notOutCount'])
+      averageScore = parseFloat(averageScore.toFixed(2))
       processedData.series[0].data.push(averageScore)
     })
     return processedData
@@ -69,6 +73,7 @@ export default class Dashboard extends Component {
     return processedData
   }
 
+
   getContributionStatisticsChartData = (data) => {
     let processedData = {
       categories: [],
@@ -95,15 +100,39 @@ export default class Dashboard extends Component {
     return processedData
   }
 
+  getHomeAwayChartData = (data) => {
+    let processedData = {
+      categories: [''],
+      series: [
+        {
+          name: 'Home',
+          data: []
+        }, {
+          name: 'Away',
+          data: []
+        }
+      ]
+    }, homeObj = data.home,
+    awayObj = data.away
+
+    Object.keys(data).map((key) => {
+      processedData.categories.push(key)
+      processedData.series[0].data.push(data[key].scoredAndWon)
+      processedData.series[1].data.push(data[key].didNotScoreAndLost)
+      processedData.series[2].data.push(data[key].scoredButLost)
+    })
+    return processedData
+  }
+
   //Generic funtion to set chart configuration and set the sate
   setChartConfigState = (config) => {
     let tempConfig = {}
     Object.keys(config).map((key) => {
       tempConfig = generateInitialConfig()
       tempConfig.chart.type = config[key].chartType || 'line'
-      tempConfig.title.text = config[key].title
-      tempConfig.xAxis.title.text = config[key].xAxisTitle
-      tempConfig.yAxis.title.text = config[key].yAxisTitle
+      tempConfig.title.text = config[key].title || ''
+      tempConfig.xAxis.title.text = config[key].xAxisTitle || ''
+      tempConfig.yAxis.title.text = config[key].yAxisTitle || ''
       tempConfig.xAxis.categories = config[key].data.categories,
       tempConfig.series = config[key].data.series
       this.setState({[key]: tempConfig})
@@ -114,6 +143,7 @@ export default class Dashboard extends Component {
   componentDidMount () {
     let calculatedData = processDataPerYear(SACHIN_DATA),
       contributionStatistics = contributionChartData(SACHIN_DATA),
+      homeAwayData = getScoreAccordingPlace(SACHIN_DATA, GROUND_DATA.India),
       chartConfigurations = {
         totalRunChartConfig: {
           title: 'Total Batting Score vs Year',
@@ -131,7 +161,8 @@ export default class Dashboard extends Component {
           title: 'Centuries & Half Centuries vs Year',
           yAxisTitle: 'Batting Score',
           xAxisTitle: 'Year',
-          data: this.getHighScoreChartData(calculatedData)
+          data: this.getHighScoreChartData(calculatedData),
+          chartType: 'column'
         },
         contributionStatisticsConfig: {
           title: 'Cotribution Statistics vs Year',
@@ -142,11 +173,15 @@ export default class Dashboard extends Component {
         }
       }
     this.setChartConfigState(chartConfigurations)
+    this.setState({
+      homeAwayChartData: homeAwayData
+    })
   }
 
   render () {
     return (
       <div>
+        <MBTable tableData={this.state.homeAwayChartData}/>
         <Chart config={this.state.totalRunChartConfig}/>
         <Chart config={this.state.averageChartConfig}/>
         <Chart config={this.state.highScoredChartConfig}/>

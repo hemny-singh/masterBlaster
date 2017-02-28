@@ -104,6 +104,61 @@ export let contributionChartData = (data) => {
   return groupedCalculatedData
 }
 
+
+export let getScoreAccordingPlace = (sachinData, groundData) => {
+  let score = {
+    home: {
+      matches: 0,
+      run: 0,
+      centuries: 0,
+      halfCenturies: 0,
+      average: 0
+    },
+    away: {
+      matches: 0,
+      run: 0,
+      centuries: 0,
+      halfCenturies: 0,
+      average: 0
+    }
+  }, splittedArray = [], notOutHome = 0, notOutAway = 0, curScore = 0,
+     chartData = {
+       columns: ['Type', 'Matches', 'Runs', 'Average', 'Centuries', 'Half Centuries'],
+       rows: []
+     }
+
+  sachinData.map((matchScore) => {
+    if (matchScore.batting_score === 'TDNB' || matchScore.batting_score === 'DNB' || 
+      matchScore.batting_score === '-') {
+    } else {
+      splittedArray = matchScore.batting_score.split('*')
+      curScore = parseInt(splittedArray[0], 10)
+      if (groundData.indexOf(matchScore.ground) === -1) {
+        score.away.run += curScore
+        score.away.matches++
+        notOutAway = splittedArray.length > 1 ? notOutAway+1 : notOutAway
+        score.away.centuries = curScore >= 100 ? score.away.centuries+1 : score.away.centuries
+        score.away.halfCenturies = (curScore >= 50 && curScore < 100) ? score.away.halfCenturies+1 : score.away.halfCenturies
+      } else {
+        score.home.run += curScore
+        score.home.matches++
+        notOutHome = splittedArray.length > 1 ? notOutHome+1 : notOutHome
+        score.home.centuries = curScore >= 100 ? score.home.centuries+1 : score.home.centuries
+  score.home.halfCenturies = (curScore >= 50 && curScore < 100) ? score.home.halfCenturies+1 : score.home.halfCenturies
+      }
+    }
+  })
+  score.home.average = parseFloat((score.home.run / (score.home.matches - notOutHome)).toFixed(2))
+  score.away.average = parseFloat((score.away.run / (score.away.matches - notOutAway)).toFixed(2))
+  
+  chartData.rows[0] = ['Home', score.home.matches, score.home.run, score.home.average, 
+  score.home.centuries, score.home.halfCenturies]
+  chartData.rows[1] = ['Away', score.away.matches, score.away.run, score.away.average, score.away.centuries, score.away.halfCenturies]
+  console.log(chartData)
+  return chartData
+}
+
+
 export let generateInitialConfig = () => {
   return {
     title: {
