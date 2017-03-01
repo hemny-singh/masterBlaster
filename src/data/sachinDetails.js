@@ -1,4 +1,4 @@
-export let SACHIN_DATA = [{
+export const SACHIN_DATA = [{
   'batting_score': '0',
   'wickets': '-',
   'runs_conceded': '-',

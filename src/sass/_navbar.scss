@@ -1,6 +1,6 @@
 .navbar {
-  background: $white-color;
-  border-color: $white-color;  
+  background: $primary;
+  border-color: $primary;  
   border-radius: 0;
   box-shadow: 0 3px 7px 0 $border-color;
   min-height: 58px;
@@ -17,10 +17,9 @@
  .navbar-brand {
     padding: 6px 15px;
     font-size: 30px;
-    color: $primary;
+    color: $text-color;
     > a {
       background-color: transparent;
-      color: $dark-gray-color;
       font-size: 29px;
       margin-bottom: 3px;
       margin-right: 9px;
@@ -31,15 +30,31 @@
     }
     > p {
       font-size: 13px;
-      color: $primary;
+      color: $text-color;
       font-weight: 600;
       font-style: italic;
     }
   }
-  .navbar-nav > li > a {
-    font-size: 17px;
+  .navbar-brand:focus, .navbar-brand:active, .navbar-brand:hover {
+    color: $text-color;
   }
+  .navbar-nav {
+    > .open {
+      > a, > a:hover, > a:focus {
+        background-color: $primary;
+        color: $text-color;
+      }
+      .dropdown-menu {
+        margin-top: 3px;
+      }
+     } 
+    > li {
+      > a, > a:focus, > a:active, > a:hover {
+        font-size: 17px;
+        color: $text-color;
+      }
+      
+    }
+    
+  } 
 }
- 
-
- 

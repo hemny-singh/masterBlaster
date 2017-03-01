@@ -1,4 +1,4 @@
-let TEST_SCORES = {
+export const TEST_SCORES = {
   sachin: {
     match: 200,
     innings: 329,
@@ -38,7 +38,7 @@ let TEST_SCORES = {
     dblCenturies: 6,
     halfCenturies: 62
   },
-  dravid: {
+  rahulDravid: {
     match: 164,
     innings: 286,
     notOut: 32,
@@ -51,7 +51,7 @@ let TEST_SCORES = {
     dblCenturies: 5,
     halfCenturies: 63
   },
-  vivRichards: {
+  vivianRichards: {
     match: 121,
     innings: 182,
     notOut: 12,
@@ -62,6 +62,19 @@ let TEST_SCORES = {
     strikeRate: 84.95,
     centuries: 24,
     dblCenturies: 3,
+    halfCenturies: 45
+  },
+  sunilGavaskar: {
+    match: 125,
+    innings: 214,
+    notOut: 16,
+    runs: 10122,
+    highScores: 236,
+    averageRate: 51.12,
+    ballsFaced: 15327,
+    strikeRate: 66.04,
+    centuries: 34,
+    dblCenturies: 4,
     halfCenturies: 45
   }
 }

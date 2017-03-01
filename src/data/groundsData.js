@@ -1,4 +1,4 @@
-export let GROUND_DATA = {
+export const GROUND_DATA = {
   'India': [
     'Ahmedabad',
     'Amritsar',
