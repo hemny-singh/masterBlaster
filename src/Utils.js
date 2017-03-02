@@ -1,18 +1,6 @@
-export let getDataAsPerYear = (data) => {
-  let groupedData = {}, date
-  data.map((matchScore) => {
-    date = new Date(matchScore.date)
-    date = date.getFullYear()
-    if (!groupedData.hasOwnProperty(date)) {
-      groupedData[date] = []
-    }
-    groupedData[date].push(matchScore)
-  })
-  return groupedData
-}
+import { SACHIN_DATA } from './data/sachinDetails'
 
-
-let getTotalPerYear = (newData, oldData) => {
+export let getTotalPerYear = (newData, oldData) => {
   let run = 0,
     tempSplitRun,
     catches,
@@ -193,3 +181,66 @@ export let generateInitialConfig = () => {
   }
 }
 
+export let getSachinTotalScoreODI = (data) => {
+  let chartData = {
+    match: data.length,
+    runs: 0,
+    highestScore: 0,
+    centuries: 0,
+    halfCenturies: 0,
+    averageRate: 0
+  }, splittedArray = [], curScore,
+    notOutCount = 0, playedMatchCount = 0
+
+  data.map((matchData) => {
+    if (matchData.batting_score === 'TDNB' || matchData.batting_score === 'DNB' || 
+      matchData.batting_score === '-') {
+    } else {
+      playedMatchCount++
+      splittedArray = matchData.batting_score.split('*')
+      curScore = parseInt(splittedArray[0], 10)
+      chartData.runs += curScore
+      chartData.highestScore = curScore > chartData.highestScore ? curScore : chartData.highestScore
+      notOutCount = splittedArray.length > 1 ? notOutCount+1 : notOutCount
+      chartData.centuries = curScore >= 100 ? chartData.centuries+1 : chartData.centuries
+      chartData.halfCenturies = (curScore >= 50 && curScore < 100) ? chartData.halfCenturies+1 : chartData.halfCenturies
+    }
+  })
+  chartData.averageRate = chartData.runs / (playedMatchCount - notOutCount)
+  return chartData
+}
+
+export let getStatAnalysisData = (data, type) => {
+  let chartData = {
+      match: {},
+      runs: {},
+      highestScore: {},
+      centuries: {},
+      halfCenturies: {},
+      averageRate: {}
+    }, playRecord = {}, sachinData = getSachinTotalScoreODI(SACHIN_DATA)
+  
+  if (type === 'ODI') {
+    Object.keys(sachinData).map((key) => {
+      chartData[key]['categories'] = ['SACHIN TENDULKAR']
+      chartData[key]['series'] = [{name: key, data: [sachinData[key]]}]
+    })
+  }
+
+  Object.keys(data).map((playerName) => {
+    playRecord = data[playerName]
+    Object.keys(playRecord).map((key) => {
+      if (chartData.hasOwnProperty(key)) {
+        if (!chartData[key].hasOwnProperty('categories')) {
+        chartData[key]['categories'] = []
+        }
+        if (!chartData[key].hasOwnProperty('series')) {
+          chartData[key]['series'] = [{name: key, data: []}]
+        }
+        chartData[key]['categories'].push(playerName)
+        chartData[key]['series'][0].data.push(playRecord[key])
+        }
+    })
+  })
+  return chartData
+}

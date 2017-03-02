@@ -16,16 +16,10 @@ export default class App extends Component {
   }
 
   render() {
-    const pageTypeMapping = {
-      dashboard: 'Dashbaord',
-      analysis: 'Statistics Analysis'
-    }
     return (
-      <div>
-        <NavBar onChangePageType={this.onChangePageType} 
-          pageType={pageTypeMapping[this.state.pageType]}/>
-        <MainComponent pageType={this.state.pageType}/>
-      </div>
+      <MainComponent 
+        pageType={this.state.pageType}
+        onChangePageType={this.onChangePageType} />
     )
   }
 }
