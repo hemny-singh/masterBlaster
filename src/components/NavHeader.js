@@ -3,8 +3,14 @@ import { Navbar, Nav, NavDropdown, MenuItem} from 'react-bootstrap'
 import logo from './../images/logo.png';
 
 export default class NavBar extends Component {
+  prototype = {
+    onChangePageType: React.PropTypes.func,
+    pageType: React.PropTypes.string
+  }
+
   render() {
     const { onChangePageType, pageType } = this.props
+
     return (
       <Navbar fluid>
         <Navbar.Header>

@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import Chart from './ChartComponent'
 import MBTable from './tableComponents'
-import { generateInitialConfig, processDataPerYear, getDataForChartPerYear,
-  contributionChartData, getScoreAccordingPlace } from './../Utils'
+import { generateInitialConfig, getCalculatedDataGroupedByYear,
+  contributionInTeamChartData, getScoreAsPerGroundLocation } from './../Utils'
 import { SACHIN_DATA } from './../data/sachinDetails'
 import { GROUND_DATA } from './../data/groundsData'
 
@@ -79,14 +79,13 @@ export default class Dashboard extends Component {
       categories: [],
       series: [
         {
-          name: 'Scored and Team Won',
-          data: []
+          name: 'Scored(>=50) and Team Won',
+          data: [],
+          stack: 'stats'
         }, {
-          name: 'Did not Score and Team Lost',
-          data: []
-        }, {
-          name: 'Scored but Lost',
-          data: []
+          name: 'Did not Score(<35) and Team Lost',
+          data: [],
+          stack: 'stats'
         }
       ]
     }
@@ -95,7 +94,6 @@ export default class Dashboard extends Component {
       processedData.categories.push(key)
       processedData.series[0].data.push(data[key].scoredAndWon)
       processedData.series[1].data.push(data[key].didNotScoreAndLost)
-      processedData.series[2].data.push(data[key].scoredButLost)
     })
     return processedData
   }
@@ -135,15 +133,16 @@ export default class Dashboard extends Component {
       tempConfig.yAxis.title.text = config[key].yAxisTitle || ''
       tempConfig.xAxis.categories = config[key].data.categories,
       tempConfig.series = config[key].data.series
+      tempConfig.plotOptions = config[key].plotOptions || {}
       this.setState({[key]: tempConfig})
     })
   }
 
 
   componentDidMount () {
-    let calculatedData = processDataPerYear(SACHIN_DATA),
-      contributionStatistics = contributionChartData(SACHIN_DATA),
-      homeAwayData = getScoreAccordingPlace(SACHIN_DATA, GROUND_DATA.India),
+    let calculatedData = getCalculatedDataGroupedByYear(SACHIN_DATA),
+      contributionStatistics = contributionInTeamChartData(SACHIN_DATA),
+      homeAwayData = getScoreAsPerGroundLocation(SACHIN_DATA, GROUND_DATA.India),
       chartConfigurations = {
         totalRunChartConfig: {
           title: 'Total Batting Score vs Year',
@@ -152,20 +151,21 @@ export default class Dashboard extends Component {
           data: this.getTotalRunChartData(calculatedData)
         }, 
         averageChartConfig: {
-          title: 'Average Rate vs Year',
-          yAxisTitle: 'Average Rate',
+          title: 'Batting Average Rate vs Year',
+          yAxisTitle: 'Batting Average Rate',
           xAxisTitle: 'Year',
           data: this.getAverageChartData(calculatedData)
         },
         highScoredChartConfig: {
-          title: 'Centuries & Half Centuries vs Year',
-          yAxisTitle: 'Batting Score',
+          title: 'Centuries & Half Centuries Count vs Year',
+          yAxisTitle: 'Batting Score Count',
           xAxisTitle: 'Year',
           data: this.getHighScoreChartData(calculatedData),
           chartType: 'column'
         },
         contributionStatisticsConfig: {
-          title: 'Cotribution Statistics vs Year',
+          plotOptions: {column: {stacking: 'normal'}},
+          title: 'Contribution Statistics vs Year',
           yAxisTitle: 'Count',
           xAxisTitle: 'Year',
           data: this.getContributionStatisticsChartData(contributionStatistics),
@@ -181,7 +181,7 @@ export default class Dashboard extends Component {
   render () {
     return (
       <div>
-        <MBTable tableData={this.state.homeAwayChartData}/>
+        <MBTable tableData={this.state.homeAwayChartData} tableTitle={'Home/Away Batting Statistics'}/>
         <Chart config={this.state.totalRunChartConfig}/>
         <Chart config={this.state.averageChartConfig}/>
         <Chart config={this.state.highScoredChartConfig}/>

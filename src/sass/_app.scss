@@ -2,9 +2,46 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  background: $body-bg;
 }
 
 .mb-container {
   margin-left: 15px;
   margin-right: 15px;
+  .main-container {
+    margin: 0 80px;
+  }
+  .mb-btn-group {
+    padding-left: 10px;
+    .selected {
+      background: $mb-secondary;
+      color: $white-color;
+      border-color: $mb-secondary;
+    }
+    .btn-default {
+      border-color: $white-color;
+      border-radius: 0;
+    }
+  }
+}
+
+.mb-widget-container {
+  margin: 10px;
+  background: $white-color;
+  box-shadow: 0 1px 3px 0 $black-20-opacity;
+  > h3 {
+    color: $heading-text-color;
+    font-size: 18px;
+    text-align: center;
+    padding-top: 10px;
+  }
+}
+
+.table {
+  > thead > tr > th {
+    text-align: center;
+  }
+  > tbody > tr > td {
+    text-align: center;
+  }
 }

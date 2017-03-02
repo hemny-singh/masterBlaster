@@ -2,7 +2,7 @@
   background: $primary;
   border-color: $primary;  
   border-radius: 0;
-  box-shadow: 0 3px 7px 0 $border-color;
+  box-shadow: 0 3px 7px 0 $black-20-opacity;
   min-height: 58px;
   padding: 3px;
   z-index: 10;
@@ -14,7 +14,7 @@
 }
 
 .navbar-default {
- .navbar-brand {
+  .navbar-brand {
     padding: 6px 15px;
     font-size: 30px;
     color: $text-color;
@@ -35,26 +35,28 @@
       font-style: italic;
     }
   }
-  .navbar-brand:focus, .navbar-brand:active, .navbar-brand:hover {
-    color: $text-color;
+  .navbar-brand {
+    &:focus,
+    &:active,
+    &:hover {
+      color: $text-color;
+    }
   }
   .navbar-nav {
     > .open {
       > a, > a:hover, > a:focus {
-        background-color: $primary;
-        color: $text-color;
+          background-color: $primary;
+          color: $text-color;
       }
       .dropdown-menu {
         margin-top: 3px;
       }
      } 
     > li {
-      > a, > a:focus, > a:active, > a:hover {
-        font-size: 17px;
-        color: $text-color;
+      > a, > a:hover, > a:focus {
+          font-size: 17px;
+          color: $text-color;
       }
-      
     }
-    
   } 
 }

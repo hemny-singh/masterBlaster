@@ -12,10 +12,13 @@ export default class Chart extends Component {
   render () {
     const {config, callback, type} = this.props
 
-    if (type === 'stock') {
-      return <ReactHighstock config={config} callback={callback}/>
-    } else {
-      return <ReactHighcharts config={config} callback={callback}/>
-    }
+    return (
+      <div className='mb-widget-container'>
+      {
+        type === 'stock' ? <ReactHighstock config={config} callback={callback}/>
+          : <ReactHighcharts config={config} callback={callback}/>
+      }
+      </div>
+    )
   }
 }

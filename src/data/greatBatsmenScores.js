@@ -76,6 +76,17 @@ export const TEST_SCORES = {
     centuries: 34,
     dblCenturies: 4,
     halfCenturies: 45
+  },
+  'Donald Bradman': {
+    match: 50,
+    innings: 80,
+    notOut: 10,
+    runs: 6996,
+    highestScore: 334,
+    averageRate: 99.94,
+    centuries: 29,
+    dblCenturies: 12,
+    halfCenturies: 13
   }
 }
 
