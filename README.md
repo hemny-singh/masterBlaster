@@ -5,7 +5,7 @@ npm install
 npm start
 ```
 
-Open (http://localhost:3000)[http://localhost:3000]
+Open [http://localhost:3000] (http://localhost:3000)
 
 
 ## Production Build
@@ -39,6 +39,7 @@ npm run build
 
 ## Problem Statement
 Wikipedia says, "Sachin Tendulkar is a former Indian cricketer, widely regarded to be the
+
 We are analysing the above statement.
 
 ## Solution
