@@ -1,6 +1,5 @@
 import { SACHIN_DATA } from './data/sachinDetails'
-const BENCHMARK_GOOD_SCORE = 50,
-  BENCHMARK_BAD_SCORE = 35
+import { BENCHMARK_GOOD_SCORE, BENCHMARK_BAD_SCORE} from './Constant'
 
 
 let checkIfScoreIsValid = (score) => {

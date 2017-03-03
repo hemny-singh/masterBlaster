@@ -5,6 +5,7 @@ import { generateInitialConfig, getCalculatedDataGroupedByYear,
   contributionInTeamChartData, getScoreAsPerGroundLocation } from './../Utils'
 import { SACHIN_DATA } from './../data/sachinDetails'
 import { GROUND_DATA } from './../data/groundsData'
+import { BENCHMARK_GOOD_SCORE, BENCHMARK_BAD_SCORE} from './../Constant'
 
 export default class Dashboard extends Component {
   constructor(props) {
@@ -79,11 +80,11 @@ export default class Dashboard extends Component {
       categories: [],
       series: [
         {
-          name: 'Scored(>=50) and Team Won',
+          name: 'Scored(>='+BENCHMARK_GOOD_SCORE+') and Team Won',
           data: [],
           stack: 'stats'
         }, {
-          name: 'Did not Score(<35) and Team Lost',
+          name: 'Did not Score(<'+BENCHMARK_BAD_SCORE+') and Team Lost',
           data: [],
           stack: 'stats'
         }

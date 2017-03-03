@@ -50,9 +50,24 @@
       }
       .dropdown-menu {
         margin-top: 3px;
+        > li {
+          > a, > a:hover, > a:focus {
+              font-size: 17px;
+              color: $text-color;
+          }
+        }
       }
-     } 
-    > li {
+      @media screen and (min-device-width: 768px) { 
+        .dropdown-menu {
+          > li {
+            > a, > a:hover, > a:focus {
+                color: $dark-gray-color;
+            }
+          }
+        }
+      }
+    } 
+    > li.dropdown {
       > a, > a:hover, > a:focus {
           font-size: 17px;
           color: $text-color;
